@@ -23,7 +23,7 @@ function App() {
     setLoad(false)
     if (token) {
       if (location.pathname === '/')
-        navigate('/index', { replace: true })
+        navigate('/aindex', { replace: true })
       else if (location.pathname === '/login')
         navigate('/', { replace: true })
     }

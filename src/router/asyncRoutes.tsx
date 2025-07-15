@@ -16,7 +16,7 @@ const asyncRoutes: Array<IRoute> = Object.entries(modules).map(([key, value]) =>
     element: (Component => <Component />)(lazy(value)),
     meta: {
       title: path,
-      icon: <div className="icon-[bi--grid-fill]" />,
+      icon: <div className={`icon-[bi--grid-fill]`} />,
     },
   }
 })
@@ -25,7 +25,6 @@ const menuList = buildTree(asyncRoutes)
 
 function buildTree(routes: IRoute[]): IRoute[] {
   const root: IRoute[] = []
-
   routes.forEach((route) => {
     const parts = route.path.split('/').filter(part => part)
     let currentLevel = root
@@ -35,13 +34,20 @@ function buildTree(routes: IRoute[]): IRoute[] {
       let existingNode = currentLevel.find(node => node.path === partPath)
 
       if (!existingNode) {
+
+        // 加载图标
+        let iconName: string;
+        if(partPath == '/aindex') { iconName = 'icon-[bi--house-fill]' }
+        else if(partPath == '/member') { iconName = 'icon-[bi--people-fill]' }
+        else { iconName = 'icon-[bi--grid-fill]' }
+
         existingNode = {
           path: partPath,
           element: null,
           children: [],
           meta: {
             title: partPath.split('/').slice(-1)[0],
-            icon: <div className="icon-[bi--grid-fill]" />,
+            icon: <div className={iconName} />,
           },
         }
         currentLevel.push(existingNode)

@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
+import {MapChineseMenu} from "@/store/data";
 
 interface Tabs {
   key: string
@@ -23,6 +24,7 @@ interface Action {
 const tabsStore = create(persist<State & Action>(set => ({
   tabsList: [],
   addTabs: (value) => {
+    value.label = MapChineseMenu[value.label]
     set(state => ({ tabsList: state.tabsList.concat(value) }))
   },
   closeLeftTabs: (key) => {

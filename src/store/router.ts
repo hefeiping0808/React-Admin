@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import type { IRoute } from '@/router'
 import { menuList as routerMenuList } from '@/router/asyncRoutes'
+import {MapChineseMenu} from "@/store/data";
 
 export interface Routes {
   key: string
@@ -30,7 +31,7 @@ function formatMenu(menuList: IRoute[]): IMenu[] {
   menuList.forEach((item) => {
     list.push({
       key: item.path,
-      label: item.meta.title,
+      label: MapChineseMenu[item.meta.title as string],
       icon: item.meta.icon,
       children: item.children?.length ? formatMenu(item.children) : undefined,
     })

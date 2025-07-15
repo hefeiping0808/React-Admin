@@ -4,7 +4,7 @@ import { Button } from 'antd'
 export default function Error404() {
   const navigate = useNavigate()
   const goToIndex = () => {
-    navigate('/index')
+    navigate('/aindex')
   }
   return (
     <div

@@ -4,7 +4,6 @@ import { Dropdown, Tabs } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { tabsStore } from '@/store/tabs'
 import { routerStore } from '@/store/router'
-import { PageEnum } from '@/enums/page'
 import { AppLayoutContext } from '@/layout'
 import '@/layout/AppTabs/index.scss'
 
@@ -17,6 +16,7 @@ const operateList = [
   { id: 6, title: '关闭全部', icon: 'icon-[bi--x-lg]' },
 ]
 const AppTabs: React.FC = () => {
+  const ROOT_INDEX = '/aindex';
   const location = useLocation()
   const navigate = useNavigate()
   const { tabsList, addTabs, closeCurrentTabs, closeOtherTabs, closeLeftTabs, closeRightTabs, closeAllTabs } = tabsStore()
@@ -49,7 +49,7 @@ const AppTabs: React.FC = () => {
         closeRightTabs(activeKey)
         break
       case 6:
-        navigate(PageEnum.ROOT_INDEX)
+        navigate(ROOT_INDEX)
         closeAllTabs()
         break
       default:
@@ -66,7 +66,7 @@ const AppTabs: React.FC = () => {
         case 1:
           return false
         case 2:
-          return PageEnum.ROOT_INDEX === activeKey
+          return ROOT_INDEX === activeKey
         case 3:
           return tabsList.length === 2 || tabsList.length === 1
         case 4:
@@ -94,12 +94,16 @@ const AppTabs: React.FC = () => {
   }, [activeKey, tabsList])
 
   useEffect(() => {
+    console.log(tabsList)
     if (location.pathname === activeKey)
       return
+
     const item = routerList.find(item => item.key === location.pathname)
     const index = tabsList.findIndex(item => item.key === location.pathname)
+
     if (index === -1 && item) {
-      addTabs({ ...item, closable: item.key !== PageEnum.ROOT_INDEX })
+      console.log('item', item)
+      addTabs({ ...item, closable: item.key !== ROOT_INDEX })
     }
     setActiveKey(location.pathname)
   }, [activeKey, addTabs, location.pathname, routerList, tabsList])
